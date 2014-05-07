@@ -16,7 +16,9 @@ lazy val tomcat = project.dependsOn(servlet)
 
 lazy val dsl = project.dependsOn(core)
 
-lazy val examples = project.dependsOn(blaze, jetty, tomcat, dsl)
+lazy val cooldsl = project.dependsOn(core)
+
+lazy val examples = project.dependsOn(blaze, jetty, tomcat, dsl, cooldsl)
 
 /* common dependencies */
 libraryDependencies in ThisBuild ++= Seq(
