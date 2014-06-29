@@ -27,13 +27,13 @@ class ApiExamples extends Specification {
         path2 |> (foo(_, _))
 
         // It can also be made all at once
-        val path3 = POST / "hello" / parse[Int] +? query[Int]("fav")
+        val path3 = POST / "hello" / pathVar[Int] +? query[Int]("fav")
         path3 |> {
           (i1: Int, i2: Int) => Ok(s"Sum of the number is ${i1 + i2}")
         }
 
         // You can automatically parse variables in the path
-        val path4 = GET / "helloworldnumber" / parse[Int] / "foo"
+        val path4 = GET / "helloworldnumber" / pathVar[Int] / "foo"
         path4 |> {
           i: Int => Ok("Received $i")
         }
@@ -66,8 +66,8 @@ class ApiExamples extends Specification {
          * making mutually required header validations, you can perform 'or' logic with your routes
          */
 
-        val path6 = "one" / parse[Int]
-        val path7 = "two" / parse[Int]
+        val path6 = "one" / pathVar[Int]
+        val path7 = "two" / pathVar[Int]
 
         val v6 = requireMap(Header.`Content-Length`)(_.length)
         val v7 = requireMap(Header.ETag)(_ => -1)

@@ -29,9 +29,9 @@ package object cooldsl {
 
   def query[T](key: String)(implicit parser: QueryParser[T], m: Manifest[T]) = QueryRule[T](key, parser)
 
-  def parse[T](implicit parser: StringParser[T], m: Manifest[T]) = PathCapture(parser, None)
+  def pathVar[T](implicit parser: StringParser[T], m: Manifest[T]) = PathCapture(parser, None)
 
-  def parse[T](id: String)(implicit parser: StringParser[T], m: Manifest[T]) = PathCapture(parser, Some(id))
+  def pathVar[T](id: String)(implicit parser: StringParser[T], m: Manifest[T]) = PathCapture(parser, Some(id))
 
   def * = CaptureTail()
 

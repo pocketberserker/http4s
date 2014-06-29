@@ -9,7 +9,7 @@ import org.http4s.cooldsl.Decoder
  */
 class MyService extends CoolService with SwaggerSupport {
 
-  GET / "hello" / parse[String] ^ "Says hello" |> { (s: String) => s"Hello world: $s" }
+  GET / "hello" / pathVar[String] ^ "Says hello" |> { (s: String) => s"Hello world: $s" }
 
   GET / "needQuery" +? query[Int]("id") |> { i: Int => s"Received an int: $i" }
 
