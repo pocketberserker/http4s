@@ -20,36 +20,36 @@ class CoolServiceTest extends Specification {
     getBody(service(r).run.body)
   }
 
-  def Get(s: String, h: Header*): Request = Request(Method.Get, Uri.fromString(s).get, headers = Headers(h:_*))
+  def Get(s: String, h: Header*): Request = Request(GET, Uri.fromString(s).get, headers = Headers(h:_*))
 
   val service = new CoolService {
-    Method.Get / "hello" |>>> { () => "route1" }
+    GET / "hello" |>>> { () => "route1" }
 
-    Method.Get / 'hello |>>> { hello: String => "route2" }
+    GET / 'hello |>>> { hello: String => "route2" }
 
-    Method.Get / "hello" / "world" |>>> { () => "route3" }
+    GET / "hello" / "world" |>>> { () => "route3" }
 
-    Method.Get / "hello" / "headers" -? query[Int]("foo") |>>> { foo: Int => "route" + foo }
+    GET / "hello" / "headers" -? query[Int]("foo") |>>> { foo: Int => "route" + foo }
 
     // Routes that will have different headers/query string requirements should work together
-    Method.Get / "hello" / "compete" -? query[Int]("foo") |>>> { foo: Int => "route" + foo }
+    GET / "hello" / "compete" -? query[Int]("foo") |>>> { foo: Int => "route" + foo }
 
-    Method.Get / "hello" / "compete" -? query[String]("foo") |>>> { foo: String => "route6_" + foo }
+    GET / "hello" / "compete" -? query[String]("foo") |>>> { foo: String => "route6_" + foo }
 
-    Method.Get / "hello" / "compete" |>>> { () => "route7"}
+    GET / "hello" / "compete" |>>> { () => "route7"}
 
-    Method.Get / "variadic" / -* |>>> { tail: Seq[String] => "route8_" + tail.mkString("/") }
+    GET / "variadic" / -* |>>> { tail: Seq[String] => "route8_" + tail.mkString("/") }
 
     val or = "or1" || "or2"
-    Method.Get / or |>>> { () => "route9" }
+    GET / or |>>> { () => "route9" }
 
-    Method.Get / "options" -? query[Option[String]]("foo") |>>> { os: Option[String] => os.getOrElse("None") }
+    GET / "options" -? query[Option[String]]("foo") |>>> { os: Option[String] => os.getOrElse("None") }
 
-    Method.Get / "seq" -? query[Seq[String]]("foo") |>>> { os: Seq[String] => os.mkString(" ") }
+    GET / "seq" -? query[Seq[String]]("foo") |>>> { os: Seq[String] => os.mkString(" ") }
 
-    Method.Get / "seq" -? query[Seq[Int]]("foo") |>>> { os: Seq[Int] => os.mkString(" ") }
+    GET / "seq" -? query[Seq[Int]]("foo") |>>> { os: Seq[Int] => os.mkString(" ") }
 
-    Method.Get / "withreq" -? query[String]("foo") |>>> { (req: Request, foo: String) => s"req $foo" }
+    GET / "withreq" -? query[String]("foo") |>>> { (req: Request, foo: String) => s"req $foo" }
   }
 
   "CoolService" should {

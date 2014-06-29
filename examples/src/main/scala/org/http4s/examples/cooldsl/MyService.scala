@@ -1,7 +1,6 @@
 package org.http4s.examples.cooldsl
 
 import org.http4s.cooldsl._
-import org.http4s.Method._
 import org.http4s.cooldsl.swagger.SwaggerSupport
 import org.http4s.cooldsl.Decoder
 
@@ -10,11 +9,11 @@ import org.http4s.cooldsl.Decoder
  */
 class MyService extends CoolService with SwaggerSupport {
 
-  Get / "hello" / parse[String] ^ "Says hello" |>>> { (s: String) => s"Hello world: $s" }
+  GET / "hello" / parse[String] ^ "Says hello" |>>> { (s: String) => s"Hello world: $s" }
 
-  Get / "needQuery" -? query[Int]("id") |>>> { i: Int => s"Received an int: $i" }
+  GET / "needQuery" -? query[Int]("id") |>>> { i: Int => s"Received an int: $i" }
 
-  (Post / "post" decoding(Decoder.strDec)) |>>> { s: String => s"Received a strong: $s" }
+  (POST / "post" decoding(Decoder.strDec)) |>>> { s: String => s"Received a strong: $s" }
 
 //  for {
 //    i <- 0 until 2

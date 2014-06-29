@@ -10,6 +10,16 @@ import org.http4s.cooldsl.bits.{QueryParser, StringParser}
  */
 package object cooldsl {
 
+  val OPTIONS = Method.Options
+  val GET = Method.Get
+  val HEAD = Method.Head
+  val POST = Method.Post
+  val PUT = Method.Put
+  val DELETE = Method.Delete
+  val TRACE = Method.Trace
+  val CONNECT = Method.Connect
+  val PATCH = Method.Patch
+
   implicit def method(m: Method): PathBuilder[HNil] = new PathBuilder(m, PathEmpty)
 
   implicit def pathMatch(s: String): CombinablePathRule[HNil] = PathMatch(s)

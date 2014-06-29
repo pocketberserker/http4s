@@ -18,11 +18,11 @@ class HListToFuncTest extends Specification {
 
   def checkOk(r: Request): String = getBody(service(r).run.body)
 
-  def Get(s: String, h: Header*): Request = Request(Method.Get, Uri.fromString(s).get, headers = Headers(h:_*))
+  def Get(s: String, h: Header*): Request = Request(GET, Uri.fromString(s).get, headers = Headers(h:_*))
 
   val service = new CoolService {
-    Method.Get / "route1" |>>> { () => Ok("foo") }
-    Method.Get / "route2" |>>> { () => "foo" }
+    GET / "route1" |>>> { () => Ok("foo") }
+    GET / "route2" |>>> { () => "foo" }
   }
 
   "HListToFunc" should {

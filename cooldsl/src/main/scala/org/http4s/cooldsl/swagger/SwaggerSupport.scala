@@ -24,14 +24,14 @@ trait SwaggerSupport extends CoolService {
 
   private val swagger = new Swagger("1.2", apiVersion, apiInfo)
 
-  Method.Get / "api-info" |>>> { () =>
+  GET / "api-info" |>>> { () =>
     val json = renderIndex(swagger.docs.toSeq)
 
     Status.Ok(compact(render(json)))
           .withHeaders(Header.`Content-Type`(MediaType.`application/json`))
   }
 
-  Method.Get / "api-info" / -* |>>> { params: Seq[String] =>
+  GET / "api-info" / -* |>>> { params: Seq[String] =>
     val path = params.mkString("/", "/", "")
     swagger.doc(path) match {
       case Some(api) =>
