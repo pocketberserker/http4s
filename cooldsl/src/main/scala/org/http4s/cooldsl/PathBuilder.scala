@@ -21,7 +21,7 @@ final class PathBuilder[T <: HList](val method: Method, private[cooldsl] val pat
 
   type Self = PathBuilder[T]
 
-  def -?[T1](q: QueryRule[T1]): Router[T1::T] = new Router(method, path, q)
+  def +?[T1](q: QueryRule[T1]): Router[T1::T] = new Router(method, path, q)
 
   def /(t: CaptureTail) : Router[List[String]::T] = new Router(method, PathAnd(path,t), EmptyHeaderRule)
 

@@ -138,7 +138,7 @@ class ApiTest extends Specification {
     import Status._
 
     "get a query string" in {
-      val path = POST / "hello" -? query[Int]("jimbo")
+      val path = POST / "hello" +? query[Int]("jimbo")
       val req = Request(requestUri = Uri.fromString("/hello?jimbo=32").get)
 
       val route = path runWith { i: Int =>
@@ -190,7 +190,7 @@ class ApiTest extends Specification {
     import Decoder._
     import scalaz.stream.Process
 
-    val path = POST / "hello" / 'world -? query[Int]("fav")
+    val path = POST / "hello" / 'world +? query[Int]("fav")
     val validations = requireThat(Header.`Content-Length`){ h => h.length != 0 } &&
                       capture(Header.ETag)
 
@@ -214,7 +214,7 @@ class ApiTest extends Specification {
     import Decoder._
     import scalaz.stream.Process
 
-    val path = POST / "hello" / 'world -? query[Int]("fav")
+    val path = POST / "hello" / 'world +? query[Int]("fav")
     val validations = requireThat(Header.`Content-Length`){ h => h.length != 0 }
 
 

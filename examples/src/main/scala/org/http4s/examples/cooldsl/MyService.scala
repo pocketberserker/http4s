@@ -11,7 +11,7 @@ class MyService extends CoolService with SwaggerSupport {
 
   GET / "hello" / parse[String] ^ "Says hello" |>>> { (s: String) => s"Hello world: $s" }
 
-  GET / "needQuery" -? query[Int]("id") |>>> { i: Int => s"Received an int: $i" }
+  GET / "needQuery" +? query[Int]("id") |>>> { i: Int => s"Received an int: $i" }
 
   (POST / "post" decoding(Decoder.strDec)) |>>> { s: String => s"Received a strong: $s" }
 

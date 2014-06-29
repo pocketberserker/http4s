@@ -29,12 +29,12 @@ class CoolServiceTest extends Specification {
 
     GET / "hello" / "world" |>>> { () => "route3" }
 
-    GET / "hello" / "headers" -? query[Int]("foo") |>>> { foo: Int => "route" + foo }
+    GET / "hello" / "headers" +? query[Int]("foo") |>>> { foo: Int => "route" + foo }
 
     // Routes that will have different headers/query string requirements should work together
-    GET / "hello" / "compete" -? query[Int]("foo") |>>> { foo: Int => "route" + foo }
+    GET / "hello" / "compete" +? query[Int]("foo") |>>> { foo: Int => "route" + foo }
 
-    GET / "hello" / "compete" -? query[String]("foo") |>>> { foo: String => "route6_" + foo }
+    GET / "hello" / "compete" +? query[String]("foo") |>>> { foo: String => "route6_" + foo }
 
     GET / "hello" / "compete" |>>> { () => "route7"}
 
@@ -43,13 +43,13 @@ class CoolServiceTest extends Specification {
     val or = "or1" || "or2"
     GET / or |>>> { () => "route9" }
 
-    GET / "options" -? query[Option[String]]("foo") |>>> { os: Option[String] => os.getOrElse("None") }
+    GET / "options" +? query[Option[String]]("foo") |>>> { os: Option[String] => os.getOrElse("None") }
 
-    GET / "seq" -? query[Seq[String]]("foo") |>>> { os: Seq[String] => os.mkString(" ") }
+    GET / "seq" +? query[Seq[String]]("foo") |>>> { os: Seq[String] => os.mkString(" ") }
 
-    GET / "seq" -? query[Seq[Int]]("foo") |>>> { os: Seq[Int] => os.mkString(" ") }
+    GET / "seq" +? query[Seq[Int]]("foo") |>>> { os: Seq[Int] => os.mkString(" ") }
 
-    GET / "withreq" -? query[String]("foo") |>>> { (req: Request, foo: String) => s"req $foo" }
+    GET / "withreq" +? query[String]("foo") |>>> { (req: Request, foo: String) => s"req $foo" }
   }
 
   "CoolService" should {
