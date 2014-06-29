@@ -31,7 +31,7 @@ trait SwaggerSupport extends CoolService {
           .withHeaders(Header.`Content-Type`(MediaType.`application/json`))
   }
 
-  GET / "api-info" / -* |>>> { params: Seq[String] =>
+  GET / "api-info" / * |>>> { params: Seq[String] =>
     val path = params.mkString("/", "/", "")
     swagger.doc(path) match {
       case Some(api) =>

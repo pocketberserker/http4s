@@ -33,7 +33,7 @@ package object cooldsl {
 
   def parse[T](id: String)(implicit parser: StringParser[T], m: Manifest[T]) = PathCapture(parser, Some(id))
 
-  def -* = CaptureTail()
+  def * = CaptureTail()
 
   /////////////////////////////// Header helpers //////////////////////////////////////
 

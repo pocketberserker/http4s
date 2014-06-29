@@ -120,14 +120,14 @@ class ApiTest extends Specification {
     }
 
     "capture end with nothing" in {
-      val stuff = GET / "hello" / -*
+      val stuff = GET / "hello" / *
       val req = Request(requestUri = Uri.fromString("/hello").get)
       val f = stuff runWith { path: List[String] => Ok("Cool.").withHeaders(Header.ETag(if (path.isEmpty) "go" else "nogo")) }
       check(f(req), "go")
     }
 
     "capture remaining" in {
-      val stuff = GET / "hello" / -*
+      val stuff = GET / "hello" / *
       val req = Request(requestUri = Uri.fromString("/hello/world/foo").get)
       val f = stuff runWith { path: List[String] => Ok("Cool.").withHeaders(Header.ETag(path.mkString)) }
       check(f(req), "worldfoo")

@@ -38,7 +38,7 @@ class CoolServiceTest extends Specification {
 
     GET / "hello" / "compete" |>>> { () => "route7"}
 
-    GET / "variadic" / -* |>>> { tail: Seq[String] => "route8_" + tail.mkString("/") }
+    GET / "variadic" / * |>>> { tail: Seq[String] => "route8_" + tail.mkString("/") }
 
     val or = "or1" || "or2"
     GET / or |>>> { () => "route9" }

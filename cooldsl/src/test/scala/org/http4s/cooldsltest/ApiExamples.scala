@@ -38,8 +38,8 @@ class ApiExamples extends Specification {
           i: Int => Ok("Received $i")
         }
 
-        // You can capture the entire rest of the tail using -*
-        val path5 = GET / "hello" / -* |>>> {
+        // You can capture the entire rest of the tail using *
+        val path5 = GET / "hello" / * |>>> {
           r: List[String] => Ok(s"Got the rest: ${r.mkString}")
         }
 
