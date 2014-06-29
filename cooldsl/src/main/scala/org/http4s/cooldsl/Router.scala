@@ -75,11 +75,11 @@ private[cooldsl] trait RouteExecutable[T <: HList] {
   
   private[cooldsl] def validators: HeaderRule[_ <: HList]
   
-  final def |>>>[F, O, R](f: F)(implicit hf: HListToFunc[T,O,F], srvc: CompileService[R]): R =
+  final def |>[F, O, R](f: F)(implicit hf: HListToFunc[T,O,F], srvc: CompileService[R]): R =
     srvc.compile(makeAction(f, hf))
   
   final def runWith[F, O, R](f: F)(implicit hf: HListToFunc[T,O,F]): Request=>Option[Task[Response]] =
-    |>>>(f)(hf, RouteExecutor)
+    |>(f)(hf, RouteExecutor)
 }
 
 private[cooldsl] trait HeaderAppendable[T1 <: HList] extends MetaDataSyntax {
