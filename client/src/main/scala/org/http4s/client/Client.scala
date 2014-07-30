@@ -1,5 +1,6 @@
 package org.http4s.client
 
+import com.typesafe.scalalogging.Logging
 import org.http4s.client.Client.BadResponse
 import org.http4s._
 
@@ -7,7 +8,7 @@ import scala.util.control.NoStackTrace
 import scalaz.concurrent.Task
 
 
-trait Client {
+trait Client { self: Logging =>
 
   /** Prepare a single request
     * @param req [[Request]] containing the headers, URI, etc.
@@ -24,12 +25,18 @@ trait Client {
   /** Shutdown this client, closing any open connections and freeing resources */
   def shutdown(): Task[Unit]
 
-  final def request[A](req: Task[Request], parser: Response => Task[A]): Task[A] =
-    req.flatMap(req => request(req, parser))
+  final def request[A](req: Task[Request], decoder: EntityDecoder[A]): Task[A] =
+    req.flatMap(req => request(req, decoder))
   
-  final def request[A](req: Request, parser: Response => Task[A]): Task[A] = prepare(req).flatMap { resp =>
-    if (resp.status == Status.Ok) parser(resp)
-    else EntityBody.text(resp).flatMap(str => Task.fail(BadResponse(resp.status, str)))
+  final def request[A](req: Request, decoder: EntityDecoder[A]): Task[A] = prepare(req).flatMap { resp =>
+    if (resp.status == Status.Ok) {
+      if (resp.contentType.isDefined && !decoder.matchesMediaType(resp)) {
+        logger.warn(s"Response media type ${resp.contentType.get} " +
+                    s"not recognized by decoder: ${decoder.consumes}")
+      }
+      decoder(resp)
+    }
+    else EntityDecoder.text(resp).flatMap(str => Task.fail(BadResponse(resp.status, str)))
   }
 }
 

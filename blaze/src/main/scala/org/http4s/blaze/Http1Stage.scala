@@ -118,8 +118,9 @@ trait Http1Stage { self: Logging with TailStage[ByteBuffer] =>
       }
   }
 
+  // TODO: what should be the behavior for determining if we have some body coming?
   protected def collectBodyFromParser(buffer: ByteBuffer): EntityBody = {
-    if (parserContentComplete()) return EntityBody.empty
+    if (parserContentComplete()) return EmptyBody
 
     @volatile var currentbuffer = buffer
 
