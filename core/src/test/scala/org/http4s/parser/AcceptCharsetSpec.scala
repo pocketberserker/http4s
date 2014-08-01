@@ -3,7 +3,8 @@ package org.http4s.parser
 import org.http4s.Header.`Accept-Charset`
 import org.specs2.mutable.Specification
 import scalaz.Validation
-import org.http4s.CharacterSet._
+import org.http4s.Charset._
+import org.http4s.CharsetRange._
 
 class AcceptCharsetSpec extends Specification with HeaderParserHelper[`Accept-Charset`] {
 
@@ -21,9 +22,9 @@ class AcceptCharsetSpec extends Specification with HeaderParserHelper[`Accept-Ch
   "Accept-Charset" should {
     "Give correct value" in {
       utf.value must be_==("UTF-8")
-      utfq5.value must be_==("UTF-8; q=0.5")
-      utfq55.value must be_==("UTF-8; q=0.55")
-      utfq555.value must be_==("UTF-8; q=0.555")
+      utfq5.value must be_==("UTF-8;q=0.5")
+      utfq55.value must be_==("UTF-8;q=0.55")
+      utfq555.value must be_==("UTF-8;q=0.555")
 
       utfq1.value must be_==("UTF-8")
     }
@@ -33,7 +34,7 @@ class AcceptCharsetSpec extends Specification with HeaderParserHelper[`Accept-Ch
       parse(utfq5.value) must be_==(utfq5)
       parse(utfq555.value) must be_==(utfq555)
 
-      parse("UTF-8; q=1.0, US-ASCII") must be_==(`Accept-Charset`(`UTF-8`, `US-ASCII`))
+      parse("UTF-8;q=1.0, US-ASCII") must be_==(`Accept-Charset`(`UTF-8`, `US-ASCII`))
 
       parse(utfq1.value) must be_==(utf)
     }
